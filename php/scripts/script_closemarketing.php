@@ -3,7 +3,7 @@
 $action = "";
 
 /*cargador de funciones por GET */
-/*if (isset($_GET["action"]) && strlen($_GET["action"]) > 0)
+if (isset($_GET["action"]) && strlen($_GET["action"]) > 0)
     $action = $_GET["action"];
 
 switch ($action) {
@@ -13,7 +13,7 @@ switch ($action) {
     default:
         echo "accion no permitida";
         break;
-}*/
+}
 
 
 /* valores necesarios para usar las apis */
@@ -379,4 +379,4 @@ function sincronizarHolderClientify()
     echo json_encode($resultado);
 }
 
-sincronizarHolderClientify();
+//sincronizarHolderClientify();
