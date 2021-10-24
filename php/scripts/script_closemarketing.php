@@ -190,7 +190,7 @@ function holdedClientesTodos()
     $URL = $apiValues["URL"];
     $headers = array("key: $apikey");
 
-    $ch = curl_init();
+    $ch = curl_init(); 
 
     curl_setopt($ch, CURLOPT_URL, $URL);
     curl_setopt($ch, CURLOPT_TIMEOUT, 30);

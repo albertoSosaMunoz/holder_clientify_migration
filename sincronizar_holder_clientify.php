@@ -6,7 +6,7 @@ include "php/funciones.php";
 
 
 <div class="row">   
-        <?php //sincronizarHolderClientify(); ?>
+        <?php //sincronizarHolderClientify(); ?> 
 </div>
 
 
