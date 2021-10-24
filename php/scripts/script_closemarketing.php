@@ -181,7 +181,7 @@ function nuevoContactoClientify($arrayContactos)
 
 /* Nos devuelve un array con todos los clientes de Holded */
 function holdedClientesTodos()
-{
+{ 
 
     $apiValues = obtenerConexionApi("holded");
     $usuario = $apiValues["usuario"];
