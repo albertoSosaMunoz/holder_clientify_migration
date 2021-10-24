@@ -109,6 +109,37 @@ function clientifyClientesCustomfield($nombreCampo)
     return $result;
 }
 
+/* nos devuelve un array con las empresas que tienen un campo custom, le pasamos el nombre del campo como variable */
+
+function clientifyEmpresaCustomfield($nombreCampo){
+
+    $apivalues=obtenerConexionApi("clientify");
+    $apikey=$apivalues['apikey'];
+    $curl = curl_init();
+
+    curl_setopt_array($curl, array(
+    CURLOPT_URL => "https://api.clientify.net/v1/companies/?$nombreCampo",
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'GET',
+    CURLOPT_HTTPHEADER => array(
+        'Content-Type: application/json',
+        "Authorization: Token $apikey"
+    ),
+    ));
+
+    $response = curl_exec($curl);
+
+    curl_close($curl);
+    //echo $response;
+    return $response;
+
+}
+
 /* modifica una empresa existente en clientify */
 
 function modificarEmpresaClientify($idClientify, $arrayClientify){
@@ -167,11 +198,10 @@ function nuevoEmpresaClientify($arrayClientify){
 
     $response = curl_exec($curl);
 
-    /*echo "<pre>";
-    print_r(json_decode($arrayClientify));
-    echo "</pre>";*/
+    //echo $arrayClientify;
+    print_r($response);
     curl_close($curl);
-    echo $response;
+    //echo $response;
 }
 
 /* crea un nuevo contacto en clientify , usa como parametro un array con las propiedades que vamos a "insertar" en clientify */
@@ -290,6 +320,8 @@ function sincronizarHolderClientify()
     //obtenemos todos los contactos de clientify que tengan el atributo holded_id (lo cual significaria que ha sido exportado desde holded)) */
     $arrayClientifyCustomField = (clientifyClientesCustomfield("holded_id"));
     $arrayClientifyCustomField = json_decode($arrayClientifyCustomField);
+    $arrayEmpresaCustomField=clientifyEmpresaCustomfield("holded_id");
+    //print_r($arrayEmpresaCustomField);
 
     /*echo "<pre>";
     print_r($arrayClientifyCustomField);
@@ -340,8 +372,10 @@ function sincronizarHolderClientify()
             //echo "ES EMPRESA";
             $arrayClientify = array(
                 "custom_fields" => array(
-                    array("field" => "holded_id", "value" => $holdedId),
-                    array("field" => "holded_direccion", "value" => $holdedDireccion)
+                    array("field" => "holded_id", "value" => $holdedId),                    
+                ),
+                "addresses" => array(
+                    array("type" => 1 , "street" => $holdedDireccion)
                 ),
                 "name" => $holdedName,                
                 "phones" => array(
