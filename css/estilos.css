@@ -1,0 +1,51 @@
+#navbar ul li{
+    display:inline-block;
+    border:2px solid black;
+    padding:5px;
+    margin:10px;
+}
+#navbar ul li a{
+    text-decoration: none;
+}
+#navbar{
+    margin:20px;    
+}
+
+#formulario_holded_nuevo_contacto label,#formulario_clientify_nuevo_contacto label{ width:150px;}
+#formulario_holded_nuevo_contacto div,#formulario_clientify_nuevo_contacto div{margin:5px;}
+#formulario_holded_mostrar label,#formulario_clientify_mostrar label{ width:150px;}
+#formulario_holded_mostrar div,#formulario_clientify_mostrar div{margin:5px;}
+
+body #holded_table tbody tr:hover , body #clientify_table tbody tr:hover{
+    background-color: lightskyblue;
+}
+
+#popUpActualizar{
+    position:relative;
+    top:50%;
+    left:50%;
+    transform: translate(-50%, -50%);
+    display:inline-block;
+}
+
+#popUpActualizar img{
+    border-radius: 50%;
+    width:300px;
+    height:250px;
+    display:block;
+}
+
+#popUpActualizar p{
+    display:block;
+    max-width:300px;
+}
+
+#modalPopup{
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    position: fixed;
+    left: 0px;
+    background-color: black;
+    opacity:0.5;
+}
