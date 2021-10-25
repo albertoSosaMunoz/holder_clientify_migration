@@ -415,7 +415,7 @@ function sincronizarHolderClientify()
             if ($clientifyHoldedId == $holdedId && $holdedPerson != 1) {
                 modificarEmpresaClientify($idClientify, $arrayClientify);
                 $crear = false;
-                break;
+                break; 
             }
         }
 
