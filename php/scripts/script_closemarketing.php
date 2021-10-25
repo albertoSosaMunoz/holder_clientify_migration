@@ -43,12 +43,8 @@ function modificarContactoClientify($clientifyId, $arrayClientify)
 
     $apiValues = obtenerConexionApi("clientify");
 
-    $usuario = $apiValues["usuario"];
-    $pass = $apiValues["pass"];
     $apikey = $apiValues["apikey"];
     $URL = $apiValues["URL"] . $clientifyId . "/";
-    $headers = array("Authorization: token $apikey");
-
     $curl = curl_init();
 
     curl_setopt_array($curl, array(
@@ -141,7 +137,7 @@ function modificarEmpresaClientify($idClientify, $arrayClientify)
     $apikey = $apivalue['apikey'];
     $arrayClientify = json_encode($arrayClientify);
     $curl = curl_init();
-    
+
     curl_setopt_array($curl, array(
         CURLOPT_URL => 'https://api.clientify.net/v1/companies/' . $idClientify . '/',
         CURLOPT_RETURNTRANSFER => true,
@@ -160,7 +156,6 @@ function modificarEmpresaClientify($idClientify, $arrayClientify)
 
     $response = curl_exec($curl);
 
-    echo ("modificado-->" . $response . "<br>");
     curl_close($curl);
 }
 
@@ -331,7 +326,7 @@ function sincronizarHolderClientify()
         $holdedDireccion = $key->billAddress->address;
 
         /* boleano para saber si es persona o empresa */
-        $holdedPerson = $key->isperson;       
+        $holdedPerson = $key->isperson;
 
         if ($holdedPerson == 1) {
             //ES PERSONA
@@ -356,9 +351,9 @@ function sincronizarHolderClientify()
                 $clientifyHoldedId = $key2->custom_fields[0]->value;
                 $idClientify = $key2->id;
 
-                if ($clientifyHoldedId == $holdedId) {                   
+                if ($clientifyHoldedId == $holdedId) {
                     if ($holdedPerson == 1) {
-                        modificarContactoClientify($idClientify, $arrayClientify);                        
+                        modificarContactoClientify($idClientify, $arrayClientify);
                         $crear = false;
                         break;
                     }
@@ -379,7 +374,7 @@ function sincronizarHolderClientify()
                 ),
                 "emails" => array(array("email" => $holdedEmail)),
             );
-           
+
             /* comparamos con el array de empresas con holded_id */
             foreach ($arrayEmpresaCustomField->results as $key2) {
 
@@ -394,7 +389,6 @@ function sincronizarHolderClientify()
                 }
             }
         }
-
 
 
         /* si el boleano es true, es una persona y lo añadiremos como nuevo contacto , en caso contrario es una empresa */
