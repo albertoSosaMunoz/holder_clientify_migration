@@ -151,7 +151,7 @@ function modificarEmpresaClientify($idClientify, $arrayClientify)
     $curl = curl_init();
 
     curl_setopt_array($curl, array(
-        CURLOPT_URL => 'https://api.clientify.net/v1/companies/6/',
+        CURLOPT_URL => 'https://api.clientify.net/v1/companies/' . $idClientify . '/',
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => '',
         CURLOPT_MAXREDIRS => 10,
@@ -169,7 +169,7 @@ function modificarEmpresaClientify($idClientify, $arrayClientify)
     $response = curl_exec($curl);
 
     curl_close($curl);
-    //echo $response;
+    echo $response;
 
 }
 
@@ -275,9 +275,9 @@ function nuevoContactoClientify($arrayContactos)
 
     curl_close($ch);
 
-    echo "<pre>";
+    /*echo "<pre>";
     print_r($result);
-    echo "</pre>";
+    echo "</pre>";*/
 
     return json_encode($result);
 }
@@ -400,13 +400,20 @@ function sincronizarHolderClientify()
 
             /* obtenemos el valor del campo holded_id para compararlo con el del contacto actual holded , usaremos para ello la variable holded_id creada anteriormente */
             //var_dump($key2);
-            if ($holdedPerson == 1)
-                $clientifyHoldedId = $key2->custom_fields[1]->value;
-
+            $clientifyHoldedId = $key2->custom_fields[0]->value;            
+            $idClientify = $key2->id;
             /* si el valor de ambos Id coincide, es un elemento exportado anteriormente, asi que en vez de crear uno, lo actualizamos, y ponemos $crear a false*/
+
+            /* si es uno hay que modificar un contacto persona */
             if ($clientifyHoldedId == $holdedId && $holdedPerson == 1) {
-                $idClientify = $key2->id;
                 modificarContactoClientify($idClientify, $arrayClientify);
+                $crear = false;
+                break;
+            }
+
+            /* si es uno hay que modificar un contacto empresa */
+            if ($clientifyHoldedId == $holdedId && $holdedPerson != 1) {
+                modificarEmpresaClientify($idClientify, $arrayClientify);
                 $crear = false;
                 break;
             }
