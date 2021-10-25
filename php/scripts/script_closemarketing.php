@@ -111,25 +111,26 @@ function clientifyClientesCustomfield($nombreCampo)
 
 /* nos devuelve un array con las empresas que tienen un campo custom, le pasamos el nombre del campo como variable */
 
-function clientifyEmpresaCustomfield($nombreCampo){
+function clientifyEmpresaCustomfield($nombreCampo)
+{
 
-    $apivalues=obtenerConexionApi("clientify");
-    $apikey=$apivalues['apikey'];
+    $apivalues = obtenerConexionApi("clientify");
+    $apikey = $apivalues['apikey'];
     $curl = curl_init();
 
     curl_setopt_array($curl, array(
-    CURLOPT_URL => "https://api.clientify.net/v1/companies/?$nombreCampo",
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_ENCODING => '',
-    CURLOPT_MAXREDIRS => 10,
-    CURLOPT_TIMEOUT => 0,
-    CURLOPT_FOLLOWLOCATION => true,
-    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-    CURLOPT_CUSTOMREQUEST => 'GET',
-    CURLOPT_HTTPHEADER => array(
-        'Content-Type: application/json',
-        "Authorization: Token $apikey"
-    ),
+        CURLOPT_URL => "https://api.clientify.net/v1/companies/?$nombreCampo",
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'GET',
+        CURLOPT_HTTPHEADER => array(
+            'Content-Type: application/json',
+            "Authorization: Token $apikey"
+        ),
     ));
 
     $response = curl_exec($curl);
@@ -137,32 +138,32 @@ function clientifyEmpresaCustomfield($nombreCampo){
     curl_close($curl);
     //echo $response;
     return $response;
-
 }
 
 /* modifica una empresa existente en clientify */
 
-function modificarEmpresaClientify($idClientify, $arrayClientify){
+function modificarEmpresaClientify($idClientify, $arrayClientify)
+{
 
-    $apivalue=obtenerConexionApi("clientify");
-    $apikey=$apivalue['apikey'];
-    $arrayClientify=json_encode($arrayClientify);
+    $apivalue = obtenerConexionApi("clientify");
+    $apikey = $apivalue['apikey'];
+    $arrayClientify = json_encode($arrayClientify);
     $curl = curl_init();
 
     curl_setopt_array($curl, array(
-    CURLOPT_URL => 'https://api.clientify.net/v1/companies/6/',
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_ENCODING => '',
-    CURLOPT_MAXREDIRS => 10,
-    CURLOPT_TIMEOUT => 0,
-    CURLOPT_FOLLOWLOCATION => true,
-    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-    CURLOPT_CUSTOMREQUEST => 'PUT',
-    CURLOPT_POSTFIELDS =>$arrayClientify,
-    CURLOPT_HTTPHEADER => array(
-        'Content-Type: application/json',
-        "Authorization: Token $apikey"
-    ),
+        CURLOPT_URL => 'https://api.clientify.net/v1/companies/6/',
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'PUT',
+        CURLOPT_POSTFIELDS => $arrayClientify,
+        CURLOPT_HTTPHEADER => array(
+            'Content-Type: application/json',
+            "Authorization: Token $apikey"
+        ),
     ));
 
     $response = curl_exec($curl);
@@ -174,10 +175,11 @@ function modificarEmpresaClientify($idClientify, $arrayClientify){
 
 /* crea un nuevo contacto tipo empresa en clientify */
 
-function nuevoEmpresaClientify($arrayClientify){
+function nuevoEmpresaClientify($arrayClientify)
+{
 
     $apiValues = obtenerConexionApi("clientify");
-    $arrayClientify=json_encode($arrayClientify);
+    $arrayClientify = json_encode($arrayClientify);
     $curl = curl_init();
 
     curl_setopt_array($curl, array(
@@ -199,7 +201,7 @@ function nuevoEmpresaClientify($arrayClientify){
     $response = curl_exec($curl);
 
     //echo $arrayClientify;
-    print_r($response);
+    //print_r($response);
     curl_close($curl);
     //echo $response;
 }
@@ -237,19 +239,26 @@ function nuevoContactoClientify($arrayContactos)
     else
         $phone = "";
 
-    if (isset($arrayContactos["custom_fields"][0]["value"]) && isset($arrayContactos["custom_fields"][1]["value"]))
-        $custom_fields = array(array("field" => "holded_id", "value" => $arrayContactos["custom_fields"][0]["value"]), array("field" => "holded_direccion", "value" => $arrayContactos["custom_fields"][1]["value"]));
+    if (isset($arrayContactos["custom_fields"][0]["value"]))
+        $custom_fields = array(array("field" => "holded_id", "value" => $arrayContactos["custom_fields"][0]["value"]));
     else
         $custom_fields = "";
 
+    if (isset($arrayContactos["addresses"][0]))
+        $address = array(array($arrayContactos["addresses"]));
+    else
+        $address = "";
 
     $ch = curl_init();
     $contacto = array(
         "first_name" => $first_name,
         "email" => $email,
         "phone" => $phone,
-        "custom_fields" => $custom_fields
+        "custom_fields" => $custom_fields,
+        "addresses" => array( array ("type" => 1 , "street" => $arrayContactos['addresses'][0]['street'] ) )
     );
+
+
     $contacto = json_encode($contacto);
 
     curl_setopt($ch, CURLOPT_POST, true);
@@ -266,9 +275,9 @@ function nuevoContactoClientify($arrayContactos)
 
     curl_close($ch);
 
-    /*echo "<pre>";
+    echo "<pre>";
     print_r($result);
-    echo "</pre>";*/
+    echo "</pre>";
 
     return json_encode($result);
 }
@@ -320,7 +329,7 @@ function sincronizarHolderClientify()
     //obtenemos todos los contactos de clientify que tengan el atributo holded_id (lo cual significaria que ha sido exportado desde holded)) */
     $arrayClientifyCustomField = (clientifyClientesCustomfield("holded_id"));
     $arrayClientifyCustomField = json_decode($arrayClientifyCustomField);
-    $arrayEmpresaCustomField=clientifyEmpresaCustomfield("holded_id");
+    $arrayEmpresaCustomField = clientifyEmpresaCustomfield("holded_id");
     //print_r($arrayEmpresaCustomField);
 
     /*echo "<pre>";
@@ -359,10 +368,12 @@ function sincronizarHolderClientify()
             $arrayClientify = array(
                 "custom_fields" => array(
                     array("field" => "holded_id", "value" => $holdedId),
-                    array("field" => "holded_direccion", "value" => $holdedDireccion)
                 ),
                 "first_name" => $holdedName,
                 "email" => $holdedEmail,
+                "addresses" => array(
+                    array("type" => 1, "street" => $holdedDireccion)
+                ),
                 "phones" => array(
                     array("phone" => $holdedMovil, "type" => 2),
                     array("phone" => $holdedTrabajo, "type" => 3)
@@ -372,12 +383,12 @@ function sincronizarHolderClientify()
             //echo "ES EMPRESA";
             $arrayClientify = array(
                 "custom_fields" => array(
-                    array("field" => "holded_id", "value" => $holdedId),                    
+                    array("field" => "holded_id", "value" => $holdedId),
                 ),
                 "addresses" => array(
-                    array("type" => 1 , "street" => $holdedDireccion)
+                    array("type" => 1, "street" => $holdedDireccion)
                 ),
-                "name" => $holdedName,                
+                "name" => $holdedName,
                 "phones" => array(
                     array("phone" => $holdedTrabajo, "type" => 3)
                 ),
@@ -389,23 +400,22 @@ function sincronizarHolderClientify()
 
             /* obtenemos el valor del campo holded_id para compararlo con el del contacto actual holded , usaremos para ello la variable holded_id creada anteriormente */
             //var_dump($key2);
-            if($holdedPerson==1)
-                $clientifyHoldedId = $key2->custom_fields[1]->value;           
+            if ($holdedPerson == 1)
+                $clientifyHoldedId = $key2->custom_fields[1]->value;
 
             /* si el valor de ambos Id coincide, es un elemento exportado anteriormente, asi que en vez de crear uno, lo actualizamos, y ponemos $crear a false*/
-            if ($clientifyHoldedId == $holdedId && $holdedPerson==1) {
+            if ($clientifyHoldedId == $holdedId && $holdedPerson == 1) {
                 $idClientify = $key2->id;
                 modificarContactoClientify($idClientify, $arrayClientify);
                 $crear = false;
                 break;
             }
-            
         }
 
         /* si el boleano es true, es una persona y lo añadiremos como nuevo contacto , en caso contrario es una empresa */
-        if ($crear && $key->isperson == 1)            
+        if ($crear && $key->isperson == 1)
             nuevoContactoClientify($arrayClientify);
-        if ($crear && $key->isperson != 1)  
+        if ($crear && $key->isperson != 1)
             nuevoEmpresaClientify($arrayClientify);
     }
 
