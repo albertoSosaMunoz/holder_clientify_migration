@@ -1,2 +1,2 @@
 # closemarketing
-pequeña aplicación que permite importar los contactos de holder a clientify.
+pequeña aplicación que permitira exportar los contactos de holder a clientify.
