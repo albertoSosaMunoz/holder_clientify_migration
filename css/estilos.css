@@ -60,3 +60,7 @@ body #holded_table tbody tr:hover , body #clientify_table tbody tr:hover{
 #img_container #arrow{
     width:180px;
 }
+
+#btn_sinc_holded_clientify,#btn_borrar_holded_clientify{
+margin: 20px;
+}
