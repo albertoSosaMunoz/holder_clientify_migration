@@ -5,6 +5,9 @@
     <div class="col-12 text-center">
         <button id="btn_sinc_holded_clientify"> Sincronizar clientify con holded </button>
     </div>
+    <div class="col-12 text-center">
+        <button id="btn_borrar_holded_clientify"> Borrar todo holded </button>
+    </div>
     
 </div>
 

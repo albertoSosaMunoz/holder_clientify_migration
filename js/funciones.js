@@ -31,6 +31,28 @@ $(()=>{
         });
 
     });
+
+    $("#btn_borrar_holded_clientify").click(()=>{
+
+        let sinc="borrarHoldedTodos";
+
+        $.ajax({
+            url: "php/scripts/script_closemarketing.php",
+            type: "GET",
+            dataType: "json",
+            data: { action :sinc },
+            cache: false,  
+            beforeSend: function() {
+              },
+        })         
+        .done(function (res) {      
+            console.log(res);
+        })         
+        .fail(function (res) {     
+            console.log(res);
+        });
+
+    });
 });
 
 

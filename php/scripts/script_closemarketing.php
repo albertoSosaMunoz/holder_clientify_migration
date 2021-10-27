@@ -10,6 +10,9 @@ switch ($action) {
     case 'sincronizarHoldedClientify':
         sincronizarHolderClientify();
         break;
+    case 'borrarHoldedTodos':
+        borrarTodoHolded();
+        break;
     default:
         echo "accion no permitida";
         break;
@@ -257,6 +260,36 @@ function nuevoContactoClientify($arrayContactos)
 
 
 /* Nos devuelve un array con todos los clientes de Holded */
+
+function borrarTodoHolded(){
+    
+    $apiValues=obtenerConexionApi("holded");
+    $apikey=$apiValues["apikey"];
+    $contactosHolded=json_decode(holdedClientesTodos());
+
+   /* foreach ($contactosHolded as $key) {
+        $id=$key->id;
+    }*/
+    $ch = curl_init();
+
+    foreach ($contactosHolded as $key) {
+        $URL="https://api.holded.com/api/invoicing/v1/contacts/$key->id";
+        $headers=array("Accept: application/json","key: $apikey");
+    
+         curl_setopt($ch, CURLOPT_URL, $URL);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    
+     
+         $response = curl_exec($ch);
+         var_dump($response);
+    }
+   
+     curl_close($ch);
+ 
+}
+
 function holdedClientesTodos()
 {
 
@@ -348,14 +381,16 @@ function sincronizarHolderClientify()
             foreach ($arrayClientifyCustomField->results as $key2) {
 
                 /* obtenemos el valor del campo holded_id para compararlo con el del contacto actual holded , usaremos para ello la variable holded_id creada anteriormente */
-                $clientifyHoldedId = $key2->custom_fields[0]->value;
-                $idClientify = $key2->id;
+                if(isset($key2->custom_fields[0]->value)){
+                    $clientifyHoldedId = $key2->custom_fields[0]->value;
+                    $idClientify = $key2->id;
 
-                if ($clientifyHoldedId == $holdedId) {
-                    if ($holdedPerson == 1) {
-                        modificarContactoClientify($idClientify, $arrayClientify);
-                        $crear = false;
-                        break;
+                    if ($clientifyHoldedId == $holdedId) {
+                        if ($holdedPerson == 1) {
+                            modificarContactoClientify($idClientify, $arrayClientify);
+                            $crear = false;
+                            break;
+                        }
                     }
                 }
             }
@@ -377,25 +412,30 @@ function sincronizarHolderClientify()
 
             /* comparamos con el array de empresas con holded_id */
             foreach ($arrayEmpresaCustomField->results as $key2) {
-
+                
                 /* obtenemos el valor del campo holded_id para compararlo con el del contacto actual holded , usaremos para ello la variable holded_id creada anteriormente */
-                $clientifyHoldedId = $key2->custom_fields[0]->value;
-                $idClientify = $key2->id;
+                    if(isset($key2->custom_fields[0]->value)){
+                        $clientifyHoldedId = $key2->custom_fields[0]->value;
+                        $idClientify = $key2->id;
 
-                if ($clientifyHoldedId == $holdedId) {
-                    modificarEmpresaClientify($idClientify, $arrayClientify);
-                    $crear = false;
-                    break;
-                }
+                        if ($clientifyHoldedId == $holdedId) {
+                            modificarEmpresaClientify($idClientify, $arrayClientify);
+                            $crear = false;
+                            break;
+                        }
+                    }
             }
-        }
-
+        }        
 
         /* si el boleano es true, es una persona y lo añadiremos como nuevo contacto , en caso contrario es una empresa */
-        if ($crear && $key->isperson == 1)
+        if ($crear && $key->isperson == 1){
+            echo "NUEVO PERSONA <->";
             nuevoContactoClientify($arrayClientify);
-        if ($crear && $key->isperson != 1)
+        }
+        if ($crear && $key->isperson != 1){
+            echo "NUEVO PERSONA <->";
             nuevoEmpresaClientify($arrayClientify);
+        }
     }
 
     /* devolvemos la respuesta AJAX como json para recogerla en la pagina indicada */

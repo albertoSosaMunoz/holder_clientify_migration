@@ -23,16 +23,9 @@ $(() => {
 
 function cargarClientesClientify(contactosClientify) {
 
-    console.log(contactosClientify.results[0]);
+    console.log(contactosClientify);
 
     rownumber = 0;
-
-    $("#cliente_nombre").val(contactosClientify.results[0]["first_name"]);
-    $("#cliente_id").val(contactosClientify.results[0]["id"]);
-    $("#cliente_holded_id").val(contactosClientify.results[0]["custom_fields"][0]["value"]);
-
-    if (contactosClientify.results[0]["emails"].length > 0)
-        $("#cliente_email").val(contactosClientify.results[0]["emails"][0]["email"]);
 
     contactosClientify.results.forEach(element => {
         console.log(element);
