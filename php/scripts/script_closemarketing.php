@@ -13,9 +13,7 @@ switch ($action) {
     case 'borrarHoldedTodos':
         borrarTodoHolded();
         break;
-    default:
-        echo "accion no permitida";
-        break;
+    
 }
 
 

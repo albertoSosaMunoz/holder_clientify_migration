@@ -1,10 +1,10 @@
 $(() => {
     console.log("funcionesClientify.js cargado");
 
-    if ($('#formulario_clientify_mostrar').length)
+    if($("#clientify_table").length > 0)
         cargarClientesClientify(contactosClientify);
 
-    $("#clientify_table tr").click((e) => {
+    /*$("#clientify_table tr").click((e) => {
         
         padreid=e.currentTarget.id;
         let contacto = $("#"+padreid+" #usuario_nombre").text();
@@ -18,7 +18,7 @@ $(() => {
         $("#formulario_clientify_mostrar #cliente_holded_id").val(holded_id);
         
         
-    });
+    });*/
 });
 
 function cargarClientesClientify(contactosClientify) {

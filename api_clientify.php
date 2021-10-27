@@ -1,8 +1,8 @@
 <?php
 include "php/header.php";
-include "php/funciones.php";
+include "php/scripts/script_closemarketing.php";
 
-$resultClientify = clientifyClientesTodos();
+$resultClientify =clientifyClientesCustomfield("holded_id");
 echo "<script> let contactosClientify= $resultClientify;</script>";
 
 if (isset($_GET["actualizarClientify"]) && $_GET["actualizarClientify"] == "actualizar") {

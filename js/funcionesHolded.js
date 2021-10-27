@@ -1,11 +1,11 @@
 $(()=>{
 
     console.log("funcionesHolded.js cargado");
-
-    if($('#formulario_holded_mostrar').length)
+    
+    if($("#holded_table").length > 0)
         cargarClientesHolded(contactosHolded);   
         
-    $("#holded_table tr").click((e)=>{
+    /*$("#holded_table tr").click((e)=>{
         
         padreid=e.currentTarget.id;
         let contacto = $("#"+padreid+" #usuario_nombre").text();
@@ -16,7 +16,7 @@ $(()=>{
         $("#formulario_holded_mostrar #cliente_id").val(id);
         $("#formulario_holded_mostrar #cliente_email").val(email);
         
-    });
+    });*/
 });
 
 function cargarClientesHolded(contactosHolded){
