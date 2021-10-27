@@ -14,7 +14,7 @@ if (isset($_GET["actualizarClientify"]) && $_GET["actualizarClientify"] == "actu
     <div class="col-md-12">
         <h1 class="text-center">LISTADO DE CLIENTES EN CLIENTIFY</h1>
     </div>
-    <div class="col-md-6">
+   <!-- <div class="col-md-6">
         <form id="formulario_clientify_mostrar" method="GET" action="#">
             <div><label>Cliente</label><input type="text" name="owner_name" id="cliente_nombre"></div>
             <div><label>id</label><input type="text" name="id" id="cliente_id"></div>
@@ -22,9 +22,9 @@ if (isset($_GET["actualizarClientify"]) && $_GET["actualizarClientify"] == "actu
             <div><label>holded_id</label><input type="text" name="holded_id" id="cliente_holded_id"></div>
             <input type="submit" value="actualizar" name="actualizarClientify">
         </form>
-    </div>
+    </div>-->
 
-    <div class="col-md-6">
+    <div class="col-md-12">
         <table id="clientify_table" class="table table-striped">
             <thead>
                 <tr>
