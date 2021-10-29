@@ -11,6 +11,7 @@
     <script src="js/funcionesHolded.js"></script>
     <script src="js/funciones.js"></script>
     <script src="js/funcionesClientify.js"></script>
+    <script src="js/funcionesClientifyGuzzle.js"></script>    
     <link rel="stylesheet" href="css/estilos.css"> 
 
     <title>CloseMarketing API</title>
@@ -24,9 +25,11 @@
                     <li><a href="api_clientify.php">Clientes Clientify</a></li>
                     <li><a href="clientify_nuevo.php">Nuevo Clientify</a></li>
                     <li><a href="api_holded.php">Clientes Holded</a></li>
-                    <li><a href="holded_nuevo.php">Nuevo Holded</a></li>
-                    <!--<li><a href="sincronizar_holder_clientify.php">Sincronizar Holded > Clientify</a></li>-->
-                    <li><a href="sincronizacion.php">Sincronizar Holded > Clientify</a></li>
+                    <li><a href="holded_nuevo.php">Nuevo Holded</a></li>                   
+                    <li><a href="sincronizacion.php">Sincronizar Holded > Clientify</a></li>                    
+                    <li><a href="clientify_list_guzzle.php">Clientify Contactos Guzzle</a></li>
+                    <li><a href="#">Holded Contactos Guzzle</a></li>
+
 
                 </ul>
                 
