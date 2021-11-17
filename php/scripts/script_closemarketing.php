@@ -24,10 +24,10 @@ function obtenerConexionApi($nombreApi)
 
     switch ($nombreApi) {
         case 'clientify':
-            return array("usuario" => "david@close.marketing", "pass" => "TZE1nzj*jgt4pvp1jwv", "apikey" => "70ad1153fbcc494a17d5b6b2aaf7cb06dc1f89a4", "URL" => "https://api.clientify.net/v1/contacts/");
+            return array("usuario" => "correoparaclientify", "pass" => "TZE1nzj*jgt4pvp1jwv", "apikey" => "70ad1153fbcc494a17d5b6b2aaf7cb06dc1f89a4", "URL" => "https://api.clientify.net/v1/contacts/");
             break;
         case "holded":
-            return array("usuario" => "info@close.marketing", "pass" => "abp2dye*axk0jyh_QKG", "apikey" => "c49afe188c171ed9316a59cd334f1891", "URL" => 'https://api.holded.com/api/invoicing/v1/contacts');
+            return array("usuario" => "correoparaholded", "pass" => "abp2dye*axk0jyh_QKG", "apikey" => "c49afe188c171ed9316a59cd334f1891", "URL" => 'https://api.holded.com/api/invoicing/v1/contacts');
             break;
         default:
             return array("error" => "no hay ninguna api con ese nombre");
